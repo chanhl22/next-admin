@@ -1,0 +1,32 @@
+import { usePostMutation } from "@/app/api/utility/api";
+import { APIResult } from "@/app/api/utility/apiResult";
+
+interface PostAppVersionRequest {
+    appVersionNo?: string
+    appType?: string
+    versionType?: string
+    osType?: string
+    version?: string
+    title?: string
+    content?: string
+}
+
+export const useInsPostAppVersion = () => {
+    return usePostMutation<PostAppVersionRequest, APIResult>(
+        "/service/insPostAppVersion",
+        {
+            onSuccess: (data) => {
+                if (data.code === 0) {
+                    console.log("저장 성공:", data.message);
+                } else {
+                    console.error("저장 실패:", data.message);
+                }
+            },
+            onError: (error) => {
+                console.error("등록 에러:", error);
+            },
+        }
+    );
+};
+
+
