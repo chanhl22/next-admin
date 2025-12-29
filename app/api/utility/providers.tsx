@@ -3,7 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation';
-import { setCurrentMenuPath } from "@/app/api/utility/api";
+import { setCurrentMenuPath } from "@/api/utility/api";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
 
