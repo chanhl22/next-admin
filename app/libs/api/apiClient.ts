@@ -1,7 +1,8 @@
 'use client'
 
-import { ServiceError } from '@/libs/errors/ServiceError'
 import { oauth2Service } from '@/services/oauth2Service'
+import { ServiceError, ServiceErrorBodyType } from '@/libs/errors/ServiceError'
+import { PATH } from '@/features/common/constant'
 
 /**
  * 공통 API 클라이언트 (클라이언트 전용)
@@ -27,35 +28,44 @@ class ApiClient {
         ...options?.headers,
       },
     })
-
-    // 401 Unauthorized - 자동 로그아웃 처리
-    if (response.status === 401) {
-      // 자동으로 로그아웃 (쿠키 + 로컬스토리지 정리)
-      oauth2Service.logout()
-
-      const currentPath = window.location.pathname
-
-      // 현재 로그인 페이지가 아니면 리다이렉트
-      if (!currentPath.startsWith('/login')) {
-        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`
-      }
-
-      throw new ServiceError('인증이 필요합니다', 'UNAUTHORIZED', 401)
-    }
-
+    const data = await response.json()
     // 에러 응답 처리
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}))
-      throw new ServiceError(
-        error.message || '요청에 실패했습니다',
-        error.code,
-        response.status,
-      )
+      // 401 Unauthorized - 자동 로그아웃 처리
+      if (response.status === 401) {
+        // 자동으로 로그아웃 (쿠키 + 로컬스토리지 정리)
+        oauth2Service.logout()
+
+        const currentPath = window.location.pathname
+
+        // 현재 로그인 페이지가 아니면 리다이렉트
+        if (!currentPath.startsWith(PATH.LOGIN)) {
+          window.location.href = `${PATH.LOGIN}?redirect=${encodeURIComponent(currentPath)}`
+        }
+      }
+
+      const errorPayload = {
+        url,
+        status: response.status,
+        statusText: response.statusText,
+      }
+
+      if (response.status === 500) {
+        throw new ServiceError<Pick<ServiceErrorBodyType, 'message'>>({
+          ...errorPayload,
+          data: { message: data.error },
+        })
+      }
+
+      throw new ServiceError<ServiceErrorBodyType>({
+        ...errorPayload,
+        data,
+      })
     }
 
     // 204 No Content나 빈 응답 처리는 서버(withFetchUtils)에서 이미 처리됨
     // 여기서는 JSON 파싱만
-    return await response.json()
+    return data
   }
 
   /**

@@ -1,13 +1,8 @@
-import { LayoutProvider } from '@/layout/context/layoutcontext';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import { PrimeReactProvider } from 'primereact/api';
 import 'primereact/resources/primereact.css';
-import '@/styles/demo/Demos.scss';
-import '@/styles/layout/layout.scss';
 
-import Providers from '@/app/api/utility/providers';    /*QueryClientProvider*/
-import Layout from '@/layout/pubLayout';
 import { Suspense } from 'react'
 import { Metadata } from 'next';
 import { ConfirmDialog } from 'primereact/confirmdialog';
@@ -37,16 +32,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
     </head>
     <body>
     <PrimeReactProvider>
-      <Providers>
-        <LayoutProvider>
           <Suspense>
-            <Layout>
               {children}
-              <ConfirmDialog />
-            </Layout>
+              <ConfirmDialog/>
           </Suspense>
-        </LayoutProvider>
-      </Providers>
     </PrimeReactProvider>
     </body>
     </html>

@@ -10,6 +10,8 @@ export interface MembersRequest {
   groupSn?: number;
   /** 루틴 진행 상태 구분코드 */
   routineProgressStatusSeCd?: string;
+  /** 고객 ID */
+  customerId: string;
   /** 검색구분 */
   searchTp: string;
   /** 검색어 */
@@ -396,6 +398,8 @@ export interface MemosResponse {
 export interface CreateMemoRequest {
   /** 대상 사용자 ID */
   targetUserId: string;
+  /** 고객 ID */
+  customerId: string;
   /** 내용 */
   memoCn: string;
 }

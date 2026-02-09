@@ -68,6 +68,8 @@ export interface MessageManagementResponse {
  * 메시지 발송 대상자 이력 목록 조회 요청
  */
 export interface GetOperatorMessageSendTargetHistorysRequest {
+  /** 고객 ID */
+  customerId: string;
   /** 읽음여부 */
   isRead?: boolean;
   /** 검색구분 */
@@ -106,6 +108,8 @@ export interface OperatorMessageSendTargetHistorysResponse {
  * 메시지 발송 대상자 목록 조회 요청
  */
 export interface SendTargetsRequest {
+  /** 고객 ID */
+  customerId: string;
   /** 검색구분 */
   searchTp?: string;
   /** 검색어 */
@@ -142,8 +146,28 @@ export interface SendTargetsResponse {
 export interface SendMessageRequest {
   /** 수신 사용자 ID */
   receiverUserIds: string[];
+  /** 고객 ID */
+  customerId: string;
   /** 발송일시 */
   sendDt: string;
   /** 메시지 내용 */
   msgCn: string;
+}
+
+// ============================================================================
+// 회원 메세지 이력 목록 조회
+// ============================================================================
+
+/**
+ * 회원 메세지 이력 목록 조회 응답
+ */
+export interface SendHistoryTargetUserIdResponse {
+  /** 내용 */
+  msgCn: string;
+  /** 등록일시 (yyyyMMddHHmmssXXX) */
+  sendDt: string;
+  /** 등록자명 */
+  registerNm: string;
+  /** 등록자 ID */
+  registerId: string;
 }

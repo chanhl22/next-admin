@@ -1,4 +1,5 @@
-import { GenderCode, LanguageCode, OperatorRoleCode, UserStatusCode } from "@/libs/constants/codes";
+import { GenderCode, LanguageCode, UserStatusCode } from '@/libs/constants/codes'
+import type { MemberCustomerResponse } from '@/libs/types/commons.types'
 
 // ============================================================================
 // 운영자 목록 조회
@@ -9,76 +10,75 @@ import { GenderCode, LanguageCode, OperatorRoleCode, UserStatusCode } from "@/li
  */
 export interface OperatorsRequest {
   /** 사용자 상태 구분코드 (10101201: 활성, 10101202: 탈퇴, 10101203: 휴면) */
-  userStatusSeCd: string;
+  userStatusSeCd: string
 
   /** 운영자 권한 구분코드 (50201101: 슈퍼 운영자, 50201102: 운영자) */
-  operatorRoleSeCd: string;
+  operatorRoleSeCd: string
 
   /** 검색구분 */
-  searchTp: string;
+  searchTp: string
 
   /** 검색어 */
-  searchWd: string;
+  searchWd: string
 
   /** 정렬 컬럼 */
-  dtOrderCol: string;
+  dtOrderCol: string
 
   /** 정렬 순서 (ASC, DESC) */
-  dtOrderDir: 'ASC' | 'DESC';
+  dtOrderDir: 'ASC' | 'DESC'
 
   /** 페이지 번호 */
-  page: number;
+  page: number
 
   /** 페이지 크기 */
-  pageSize: number;
+  pageSize: number
 }
 
 /**
  * 필드명을 API 컬럼명으로 매핑
  */
 export const fieldToColumnMap: Record<string, string> = {
-  'userStatusSeCdNm': 'user_status_se_cd',
-  'operatorName': 'operator_name',
-  'loginId': 'login_id',
-  'operatorTel': 'operator_tel',
-  'registerDt': 'register_dt',
-  'registerId': 'register_id'
-};
-
+  userStatusSeCdNm: 'user_status_se_cd',
+  operatorName: 'operator_name',
+  loginId: 'login_id',
+  operatorTel: 'operator_tel',
+  registerDt: 'register_dt',
+  registerId: 'register_id',
+}
 
 /**
  * 운영자 목록 조회 응답
  */
 export interface OperatorsResponse {
   /** 사용자 ID */
-  userId: string;
+  userId: string
 
   /** 사용자 상태 구분코드 */
-  userStatusSeCd: string;
+  userStatusSeCd: string
 
   /** 사용자 상태 구분코드명 */
-  userStatusSeCdNm: string;
+  userStatusSeCdNm: string
 
   /** 운영자 권한 구분코드 수 */
-  operatorRoleCount: string;
+  operatorRoleCount: string
 
   /** 운영자 권한 목록 */
-  operatorRoles: OperatorRole[];
+  operatorRoles: OperatorRole[]
 
   /** 운영자명 (마스킹) */
-  operatorName: string;
+  operatorName: string
 
   /** 로그인 ID (마스킹) */
-  loginId: string;
+  loginId: string
 
   /** 운영자 전화번호 (마스킹) */
-  operatorTel: string;
+  operatorTel: string
 
   /** 등록일시 */
-  registerDt: string;
+  registerDt: string
 
   /** 등록자 */
-  registerId: string;
+  registerId: string
 }
 
 // ============================================================================
@@ -90,34 +90,34 @@ export interface OperatorsResponse {
  */
 export interface CreateOperatorRequest {
   /** 사용자 전화번호 (E164 표준: 예) +821099991111) */
-  userTel: string;
+  userTel: string
 
   /** 로그인 ID (이메일 형식) */
-  loginId: string;
+  loginId: string
 
   /** 관리 고객 목록 (고객 ID UUID 목록) */
-  manageCustomerIds: string[];
+  manageCustomerIds: string[]
 
   /** 권한 목록 (Role Id String) */
-  operatorRoles: string[];
+  operatorRoles: string[]
 
   /** 운영자 명 */
-  operatorName: string;
+  operatorName: string
 
   /** 성별 구분코드 (10101301: 남성, 10101302: 여성, 10101303: 기타) */
-  genderSeCd: string;
+  genderSeCd: string
 
   /** 운영자 생년월일 (19991231) */
-  operatorBirth: string;
+  operatorBirth: string
 
   /** 언어 구분코드 (00101101: 한국어, 00101102: 영어) */
-  languageSeCd: string;
+  languageSeCd: string
 
   /** 운영자 타임존 (+00:00) */
-  operatorTimezone: string;
+  operatorTimezone: string
 
   /** 처리 사유 */
-  actionReason: string;
+  actionReason: string
 }
 
 /**
@@ -125,7 +125,7 @@ export interface CreateOperatorRequest {
  */
 export interface CreateOperatorResponse {
   /** 사용자 ID */
-  userId: string;
+  userId: string
 }
 
 // ============================================================================
@@ -137,22 +137,22 @@ export interface CreateOperatorResponse {
  */
 export interface UpdateOperatorRequest {
   /** 사용자 ID (UUID) */
-  userId: string;
+  userId: string
 
   /** 관리 고객 목록 (고객 ID UUID 목록) */
-  manageCustomerIds: string[];
+  manageCustomerIds: string[]
 
   /** 권한 목록 (Role Id String) */
-  operatorRoles: string[];
+  operatorRoles: string[]
 
   /** 운영자 명 */
-  operatorName: string;
+  operatorName: string
 
   /** 언어 구분코드 (00101101: 한국어, 00101102: 영어) */
-  languageSeCd: string;
+  languageSeCd: string
 
   /** 운영자 타임존 (+00:00) */
-  operatorTimezone: string;
+  operatorTimezone: string
 }
 
 // ============================================================================
@@ -164,10 +164,10 @@ export interface UpdateOperatorRequest {
  */
 export interface UpdateOperatorStatusRequest {
   /** 로그인 ID (이메일 형식) */
-  loginId: string;
+  userId: string
 
   /** 사용자 상태 구분코드 (10101201: 활성, 10101203: 휴면(비활성)) */
-  userStatusSeCd: UserStatusCode;
+  userStatusSeCd: UserStatusCode
 }
 
 // ============================================================================
@@ -179,22 +179,22 @@ export interface UpdateOperatorStatusRequest {
  */
 export interface SaveOperatorProfileRequest {
   /** 사용자 ID (UUID) */
-  userId: string;
+  userId: string
 
   /** 사용자 명 */
-  userName: string;
+  userName: string
 
   /** 사용자 생년월일 (YYYYMMDD) */
-  userBirth: string;
+  userBirth: string
 
   /** 사용자 타임존 (+00:00) */
-  userTimezone: string;
+  userTimezone: string
 
   /** 성별 구분코드 (10101301: 남성, 10101302: 여성, 10101303: 기타) */
-  genderSeCd: GenderCode;
+  genderSeCd: GenderCode
 
   /** 언어 구분코드 (00101101: 한국어, 00101102: 영어) */
-  languageSeCd: LanguageCode;
+  languageSeCd: LanguageCode
 }
 
 // ============================================================================
@@ -206,7 +206,7 @@ export interface SaveOperatorProfileRequest {
  */
 export interface CheckDuplicationLoginIdRequest {
   /** 로그인 ID (이메일 형식) */
-  loginId: string;
+  loginId: string
 }
 
 /**
@@ -214,9 +214,8 @@ export interface CheckDuplicationLoginIdRequest {
  */
 export interface CheckDuplicationLoginIdResponse {
   /** 중복여부 (true: 중복, false: 중복아님) */
-  isDuplicated: boolean;
+  isDuplicated: boolean
 }
-
 
 // ============================================================================
 // 클라이언트 별 사용자 전화번호 중복확인
@@ -227,7 +226,7 @@ export interface CheckDuplicationLoginIdResponse {
  */
 export interface CheckDuplicationUserTelRequest {
   /** 사용자 전화번호 (E164 표준: 0|| +821099991111) */
-  userTel: string;
+  userTel: string
 }
 
 /**
@@ -235,7 +234,7 @@ export interface CheckDuplicationUserTelRequest {
  */
 export interface CheckDuplicationUserTelResponse {
   /** 중복여부 (true: 중복, false: 중복아님) */
-  isDuplicated: boolean;
+  isDuplicated: boolean
 }
 
 // ============================================================================
@@ -247,37 +246,40 @@ export interface CheckDuplicationUserTelResponse {
  */
 export interface OperatorDetailResponse {
   /** 사용자 ID (UUID) */
-  userId: string;
+  userId: string
 
   /** 운영자 권한 목록 */
-  operatorRoles: OperatorRole[];
+  operatorRoles: OperatorRole[]
 
   /** 운영자명 */
-  operatorName: string;
+  operatorName: string
 
   /** 로그인 ID */
-  loginId: string;
+  loginId: string
 
   /** 운영자 전화번호 */
-  operatorTel: string;
+  userTel: string
 
   /** 성별 구분코드 (10101301: 남성, 10101302: 여성, 10101303: 기타) */
-  genderSeCd: string;
+  genderSeCd: string
 
   /** 운영자 생년월일 (YYYYMMDD) */
-  operatorBirth: string;
+  operatorBirth: string
 
   /** 언어 구분코드 (00101101: 한국어, 00101102: 영어) */
-  languageSeCd: string;
+  languageSeCd: string
 
   /** 사용자 타임존 (+00:00) */
-  userTimezone: string;
+  userTimezone: string
 
   /** 운영자 프로필 이미지 url */
-  operatorProfileImgUrl?: string;
+  operatorProfileImgUrl?: string
 
   /** 운영자 프로필 내용 */
-  operatorProfileCn?: string;
+  operatorProfileCn?: string
+
+  /** 프로젝트 */
+  customers: MemberCustomerResponse[]
 }
 
 // ============================================================================
@@ -289,22 +291,22 @@ export interface OperatorDetailResponse {
  */
 export interface UpdateOperatorProfileRequest {
   /** 사용자 ID (UUID) */
-  userId: string;
+  userId: string
 
   /** 사용자 명 */
-  userName?: string;
+  userName?: string
 
   /** 사용자 생년월일 (YYYYMMDD) */
-  userBirth?: string;
+  userBirth?: string
 
   /** 사용자 타임존 (+00:00) */
-  userTimezone?: string;
+  userTimezone?: string
 
   /** 성별 구분코드 */
-  genderSeCd?: GenderCode;
+  genderSeCd?: GenderCode
 
   /** 언어 구분코드 */
-  languageSeCd?: LanguageCode;
+  languageSeCd?: LanguageCode
 }
 
 // ============================================================================
@@ -316,7 +318,7 @@ export interface UpdateOperatorProfileRequest {
  */
 export interface WithdrawOperatorRequest {
   /** 탈퇴 대상 사용자 ID */
-  targetUserId: string;
+  targetUserId: string
 }
 
 // ============================================================================
@@ -325,8 +327,8 @@ export interface WithdrawOperatorRequest {
 
 export interface OperatorRole {
   /** 운영자 권한 구분코드 */
-  roleId: string;
+  roleId: string
 
   /** 운영자 권한 구분코드명 */
-  operatorRoleSeCdNm: string;
+  operatorRoleSeCdNm: string
 }
